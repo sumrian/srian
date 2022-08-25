@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        .left{
+            height:700px;
+            /* overflow-y:auto; */
+            overflow: scroll;
+            right:32%;
+            left:15%;
+            position:absolute;
+        }
+        .right-u{
+            position:absolute;
+            left:73%;
+            bottom:52%;
+            top:0%;
+            right:5%;
+        }
+        .right-d{
+            position:absolute;
+            left:73%;
+            right:5%;
+            top:54%;
+            height:300px;
+            overflow-y:auto;
+            
+        }
+        .catalogue{
+            width: 250px;
+            height: 60px;
+            left:15%;
+            position:relative;
+            top: 30px;
+        }
+        .point{
+            height: 50px;
+        }
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        a{
+            text-decoration:none;
+            color:blue;
+            
+        };
+        .tupian{
+            width: 700px;
+            height: 400px;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        
+
+
+
+        <div class="left" onscroll="myFunction()">
+            <div>
+                <h1>妙啊！纯 CSS 实现拼图游戏</h1>
+                <span class="tupian"><img width="700" height="400" src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b5482a2915454bc1b4a3b5e2f06eb377~tplv-k3u1fbpfcp-zoom-crop-mark:3024:3024:3024:1702.awebp?" alt="" id="首页插图"></span>
+                <p>本文，将向大家介绍一种将多个 CSS 技巧运用到极致的技巧，利用纯 CSS 实现拼图游戏。</p>
+                <p>本技巧源自于 Temani Afif 的 CodePen CSS Only Puzzle game。一款完全由 CSS 实现的拼图游戏。</p>
+                <p>我们要做的，就是将散落的图片碎块，复原成一幅完整的图，像是这样：</p>
+            </div>
+        <div class="point" id="1" ></div>
+        <h2 id="ikun1">利用 draggable 属性实现元素的拖拽</h2>
+            <br>基于上述第一点，如何让一个元素变得可以拖拽，这是最容易解决的。</br>
+            <br>在 HTML5 中，给标签新增了一个 draggable 属性，设置为 true 后，即可实现元素的拖拽效果。</br>
+            <br>简单而言：</br>
+            <pre>
+            <code>
+                <div>draggable false</div>
+                <div draggable="true">draggable true</div>
+            </code>
+            </pre>
+            <br>我们实现这样两个 div，其中第二个设置了 draggable="true"：</br>
+            <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/5d8bf51a0ffd43b296c3d0c2c399604a~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp" alt="">
+            <br>设置了 draggable="true" 的元素，长按住鼠标即可拖动元素：</br>
+            <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/baa0a38704404fc3a503388ff29dfd2a~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp" alt="">
+            <br>这样，拖动的问题就解决了.<a href="">CodePen Demo -- HTML draggable Demo</a></br>
+
+
+        <div class="point" id="2"></div>
+        <h2 id="ikun2">实现元素从位置A到位置B的移动</h2>
+            <br>OK，接下来的难点就在于，如何将元素从位置A移动到位置B。</br>
+            <br>这里的核心在于，巧妙的应用 transition 元素。</br>
+            <br>我们来看这样一个例子，如果有一个元素，已经偏移了 translate(120px, 120px)，我们 hover 这个元素的时候，让它回到原来的位置：</br>
+            <br>
+            <pre>
+            <code>
+                div {
+                    transform: translate(120px, 120px);
+                }
+                div:hover {
+                    transform: translate(0, 0);
+                }
+            </code>
+            </pre>
+            </br>
+            <br>效果如下：</br>
+            <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fd76c1b5d2cb4fb690be1a61b4b86a89~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp" alt="">
+            <br>这里很有意思的是：</br>
+            <br>1.当我们 hover 元素，元素归位</br>
+            <br>2.由于元素归位，失去了 hover 的状态，又变回了原来状态，然后又重新触发了 hover 状态，如此反复，所以会看到剧烈的跳动</br>
+            <br>那，有没有办法让它复位了就不再跳回来呢？</br>
+            <br>可以的，我们可以通过设置一个非常大的 transition-duraiotn 和一个非常大的 transition-delay，让整个过渡效果变得非常缓慢，慢到我们察觉不到：</br>
+            <pre>
+            <code>
+                div {
+                    transform: translate(120px, 120px);
+                    transition: 999999s 999999s;
+                }
+                div:hover {
+                    transform: translate(0, 0);
+                    transition: 0s;
+                }
+            </code>
+            </pre>
+            <br>如此一来，元素复位了之后，就再也不会跳回来了（理论上）：</br>
+            <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9606cbfe256549a5becff6e98ec61fa0~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp" alt=""></br>
+            <br>如果，我们把上述的 transition: 999999s 999999s，也就过渡持续时间与过渡延迟时间**设置短一点，譬如都设置为 2s 的话 transition: 2s 2s，效果如下：  </br>     
+            <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/aed92681b3b44323addb4517b25153ce~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp" alt=""></br>
+            <br>这样，你应该能大致理解发生了什么了。   </br> 
+
+
+        <div class="point" id="3"></div>
+        <h2 id = "ikun3">通过 :active 伪类实现触发器</h2>
+            <br>当然，只有上面的知识还是不够。</br>
+            <br>首先，元素的移动不是通过 hover 触发的，而是需要通过拖到到特定位置，并且释放鼠标的拖动效果，实现元素的移动。并且，只有在特定的位置释放，元素才能移动。</br>
+            <br>这又是怎么实现的呢？这里，我们还需要通过事件的冒泡。</br>
+            <br>我们简单改造一下代码，给元素添加一个父元素，再添加一个标记元素：</br>
+            <pre>
+                <code>
+                        <div class="g-wrap">
+                        <div class="g-flag">FLAG</div>
+                        <div class="g-box" draggable="true"></div>
+                        </div>
+                </code>
+            </pre>
+            <br>其中，.g-flag 是我们实现的一个触发器，我们不再通过 hover 元素本身实现元素的移动，而是通过 hover 这个特殊的触发器来实现元素的移动，这个应该很好理解：</br>
+            <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f7b87b1f2b204923ba8654c518e8edf8~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp" alt="">
+            <br>好！最为关键的步骤来了！</br>
+            <br>我们需要通过事件的冒泡，当开始拖拽 .g-box 元素本身的时候，才让我们的触发器显现，并且设置一个极为短暂的停留时间，这样让鼠标放下的一瞬间，触发元素的复位。</br>
+            <br>什么意思呢？看看效果图：</br>
+            <img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7972c326d5c24a3bbcbef67a47f6f779~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp?" alt="">
+            <br>核心代码如下：</br>
+            <pre>
+                <code>
+                    <div class="g-wrap">
+                        <div class="g-flag">FLAG</div>
+                        <div class="g-box" draggable="true"></div>
+                    </div>
+                </code>
+            </pre>
+            <pre>
+                <code>
+                    .g-wrap {
+                        position: relative;
+                        width: 120px;
+                        height: 120px;
+                    }
+                    .g-box {
+                        width: 120px;
+                        height: 120px;
+                        background: #000;
+                        transform: translate(120px, 120px);
+                        transition: 9999s 9999s;
+                    }
+                    .g-flag {
+                        position: absolute;
+                        width: 0;
+                        height: 0;
+                        top: -100px;
+                        left: -100px;
+                        transition: 0 0.5s;
+                    }
+                    .g-wrap:active .g-flag {
+                        border: 1px dashed #000;
+                        width: 100px;
+                        height: 100px;
+                    }
+                    .g-flag:hover ~ .g-box {
+                        transform: translate(0, 0);
+                        transition: 0s;
+                    }
+                </code>
+            </pre>
+            <br>这里运用到非常核心的一点是，在拖拽 .g-box 元素的过程中，触发了它的 :active 事件，同时，这个事件还会冒泡到它的父元素 .g-wrap 上。利用事件的冒泡，我们可以让元素在拖拽的过程中，让触发器显示，并且通过鼠标释放后立即触发了触发器的 hover 事件，让元素从位置 A，移动到了位置 B，实在是妙不可言！</br>
+            <br>最后，我们只需要让触发器的位置，与我们希望元素去到的位置，保持一致，即可实现拼图的原理：</br>
+            <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/32d8d02a09b744c1a5f4c6c6a3bcefb1~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp" alt="">
+            <br>完整的单个元素从 A 点通过拖拽到移动到 B 点的 DEMO，你可以戳这里：<a href="https://codepen.io/Chokcoco/pen/MWVVWqq">CodePen Demo -- HTML draggable Demo</a></br>
+
+            
+        <div class="point" id="4"></div>
+        <div class="point" ></div>
+        <h2 id = "ikun4">实现拼字拼图游戏</h2>
+            <br>掌握了上述的原理后，上述的拼图游戏的就迎刃而解了。感兴趣的可以去看看它的源码：CSS Only Puzzle game。剩下的大部分工作在于，将完整的图片切割成不同份数，随机放置不同到不同的位置。</br>
+            <br>这里，借助同样的原理，我再给出一个类似的 DEMO，一个简单的拼字游戏，给出完整的代码：</br>
+            <pre>
+                <code lang="HTML">
+                    <p class="source">请把文字摆放到正确的位置：橘皮乌龙</p>
+                    <div class="g-container">
+                    "<"
+                        <div class="g-wrap">
+                            <div class="g-flag"></div>
+                            <div class="g-box" draggable="true">橘</div>
+                        </div>
+                        <div class="g-wrap">
+                            <div class="g-flag"></div>
+                            <div class="g-box" draggable="true">皮</div>
+                        </div>
+                        <div class="g-wrap">
+                            <div class="g-flag"></div>
+                            <div class="g-box" draggable="true">乌</div>
+                        </div>
+                        <div class="g-wrap">
+                            <div class="g-flag"></div>
+                            <div class="g-box" draggable="true">龙</div>
+                        </div>
+                    </div>
+                    ">"
+                </code>
+            </pre>
+            
+            <pre>
+                <textarea color="blue" name="" id="" cols="30" rows="10">
+                    .g-container {
+                        display: flex;
+                        width: 400px;
+                        height: 100px;
+                    }
+                    .g-wrap {
+                        position: relative;
+                        margin: auto;
+                        width: 100px;
+                        height: 100px;
+                        border: 1px dashed #000;
+                        box-sizing: border-box;
+                    }
+                    .g-flag {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 0;
+                        height: 0;
+                        background: rgba(0, 0, 0, .15);
+                    }
+                    .g-box {
+                        width: 100%;
+                        height: 100%;
+                        background-color: #000;
+                        cursor: grab;
+                        color: #fff;
+                        text-align: center;
+                        line-height: 100px;
+                        font-size: 48px;
+                    }
+                    .g-wrap:active .g-flag {
+                        width: 100%;
+                        height: 100%;
+                    }
+                    @for $i from 1 to 5 {
+                        .g-wrap:nth-child(#{$i}) .g-box {
+                            transform: 
+                                rotate(#{random(180)}deg)
+                                translate(#{random(400) - 150}px, #{random(100) + 60}px);
+                        }
+                    }
+                    .g-box {
+                        transition: 99999s 999999s;
+                    }
+                    .g-flag:hover + .g-box {
+                        transform: translate(0, 0);
+                        transition: 0s;
+                    }
+                </textarea>
+                <code lang="HTML">
+                    
+                </code>
+            </pre>
+            <br>为了方便理解，每次拖拽元素的时候，需要放置的位置都会被高亮，当然，这一点提示效果完全是可以去掉的：</br>
+            <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0fff4d34fbb74b64a7027b013cdfe5db~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp" alt="">
+            <br>完整的 DEMO，你也可以戳这里 CodePen Demo -- Pure CSS Spelling game</br>
+            <br>在上述的代码中，我们利用了 SASS 快速实现了不同块的文字的位置的随机摆放，增加一定的随机性。同时，利用 SASS 减少了一些重复性代码的工作量。</br>
+
+
+        <div class="point" id="5"></div>
+        <h2 id = "ikun5">最后</h2>
+            <br>怎样，其实也不是很难吧？好了，本文到此结束，希望本文对你有所帮助 :)</br>
+            <br>想 Get 到最有意思的 CSS 资讯，千万不要错过我的公众号 -- iCSS前端趣闻 😄</br>
+            <br>更多精彩 CSS 技术文章汇总在我的<a href="https://github.com/chokcoco/iCSS">Github -- iCSS</a> ，持续更新，欢迎点个 star 订阅收藏。</br>
+            <br>如果还有什么疑问或者建议，可以多多交流，原创文章，文笔有限，才疏学浅，文中若有不正之处，万望告知。</br>
+            <br>作者：chokcoco
+            <br>链接：<a href="https://juejin.cn/post/7134893409927430152">https://juejin.cn/post/7134893409927430152</a>
+            <br>来源：稀土掘金
+            <br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+        </div>
+        <div class="right-u">
+            2012年4月，参加湖南卫视综艺节目《向上吧！少年》，进入全国前200强，此后开始接触演艺活动 [22]  ；8月，参演偶像剧《童话二分之一》，他在剧中饰演主角少年御风一角 [2]  。
+2014年3月4日，首次出演的爱情悬疑喜剧电影《完美假妻168》在中国大陆上映，他在片中饰演男主角霍克的少年时期；随后，又参演都市情感剧《女刑警李春春》，他在剧中饰演西西一角 [23]  。
+2015年7月10日，中韩青春励志类原创综艺节目《星动亚洲》，进入前三强 [24]  。
+2016年10月18日，加入男子组合SWIN，并担任音乐小分队SWIN-S的高音RAP [25]  ；12月，随SWIN-S发行首张迷你专辑《New World》，收录了包括《Fantasy》《明日路》等5首歌曲 [26]  。
+        </div>
+        <div class="right-d">
+           <div class="catalogue"><a href="#1" id="8" >利用 draggable 属性实现元素的拖拽</a></div>
+           <div class="catalogue"><a href="#2" id="9" >实现元素从位置A到位置B的移动</a></div>
+           <div class="catalogue"><a href="#3">通过 :active 伪类实现触发器</a></div>
+           <div class="catalogue"><a href="#4">实现拼字拼图游戏</a></div>
+           <div class="catalogue"><a href="#5">最后</a></div>
+           <div class="catalogue"><a href="" ></a></div>
+           
+        </div>
+    </div>
+    <script type="text/javascript">
+        var b = document.querySelectorAll("a");
+        // var tikun1 = document.getElementById("ikun1").getBoundingClientRect().top
+        //     var tikun2 = document.getElementById("ikun2").getBoundingClientRect().top
+        //     var tikun3 = document.getElementById("ikun3").getBoundingClientRect().top
+        //     var tikun4 = document.getElementById("ikun4").getBoundingClientRect().top
+        //     var tikun5 = document.getElementById("ikun5").getBoundingClientRect().top
+        //     console.log(tikun1,tikun2,tikun3,tikun4,tikun5)
+        //console.log(b[0]);
+        
+        function a(){
+            var tdistance = document.getElementById("ikun1").getBoundingClientRect().top
+            //console.log(tdistance)
+            //if(tdistance<40){alert("aa")};
+           // let anchorOffset0 = document.querySelector('#ikun1').clientHeight
+            //console.log(anchorOffset0,'888888888888888888888888888')
+            //if(anchorOffset0 <32){alert("s")}
+            //let scrollTop = document.querySelector('#ikun1').scrollTop;
+            //let ioffsetTop = document.querySelector('#ikun1').offsetTop
+
+            for(var i=0;i<b.length;i++){
+                b[i].style.color="blue";
+            }
+            
+            var currtA = document.getElementById(8);
+            
+            currtA.style.color="red";
+           // console.log(anchorOffset0,'888888888888888888888888888');
+            //console.log(tdistance);
+           // console.log(scrollTop);
+            //console.log(ioffsetTop);
+
+        }
+        function fn(){
+            for(var i=0;i<b.length;i++){
+                b[i].style.color="blue";
+            }
+            
+            var currtA = document.getElementById(9);
+            var tdistance = document.getElementById("ikun1").getBoundingClientRect().top
+            //console.log(tdistance)
+            //if(tdistance<40){alert("aa")};
+            //let anchorOffset0 = document.querySelector('#ikun1').clientHeight
+            //console.log(anchorOffset0,'888888888888888888888888888')
+            //if(anchorOffset0 <32){alert("s")}
+           // let scrollTop = document.querySelector('#ikun1').scrollTop;
+            //let ioffsetTop = document.querySelector('#ikun1').offsetTop
+
+            
+            currtA.style.color="red";
+            //console.log(anchorOffset0,'888888888888888888888888888');
+            console.log(tdistance);
+            //console.log(scrollTop);
+            //console.log(ioffsetTop);
+
+        }
+        function myFunction(){
+            //console.log("234");
+            //var t = document.getElementById("ikun1").scrollTop ;
+            //50 -190 -420
+            //var top_div = document.getElementById( "top_div" );
+            var tikun1 = [document.getElementById("ikun1").getBoundingClientRect().top,0]
+            var tikun2 = [document.getElementById("ikun2").getBoundingClientRect().top,1]
+            var tikun3 = [document.getElementById("ikun3").getBoundingClientRect().top,2]
+            var tikun4 = [document.getElementById("ikun4").getBoundingClientRect().top,3]
+            var tikun5 = [document.getElementById("ikun5").getBoundingClientRect().top,4]
+           // console.log(tikun5[0]);
+            //console.log(typeof(tikun1[1]));
+            // var arrcolor = [tikun1,tikun2,tikun3,tikun4,tikun5];
+            
+            // var acolor = (a)=>{
+            //     var num = a[0];
+            //     if (0<num<60) {
+            //         for(var i=0;i<b.length;i++){
+            //             b[i].style.color="blue";
+            //         }
+            //         b[a[1]].style.color="red";
+            //     }else{
+            //         black;
+            //     };
+            // };arrcolor.forEach(acolor);
+            var num5 = tikun5[0];
+            var num4 = tikun4[0];
+            var num3 = tikun3[0];
+            var num2 = tikun2[0];
+            var num1 = tikun1[0];
+            if (0<num1 && num1<60) {
+                for(var i=0;i<b.length;i++){
+                        b[i].style.color="blue";
+                    }
+                    b[0].style.color="red";
+            } 
+            else if (0<num2 && num2<60) {
+                for(var i=0;i<b.length;i++){
+                        b[i].style.color="blue";
+                    }
+                    b[1].style.color="red";
+            } 
+            else if (0<num3 && num3<60) {
+                for(var i=0;i<b.length;i++){
+                        b[i].style.color="blue";
+                    }
+                    b[2].style.color="red";
+            } 
+            else if (60<num4 && num4<100) {
+                for(var i=0;i<b.length;i++){
+                        b[i].style.color="blue";
+                    }
+                    b[3].style.color="red";
+            } 
+            
+           //console.log(num);
+            else if (0<num5 && num5<150) {
+                for(var i=0;i<b.length;i++){
+                        b[i].style.color="blue";
+                    }
+                    b[4].style.color="red";
+            } ;
+           
+        //     acolor(tikun1);
+        //     acolor(tikun2);
+        //     acolor(tikun3);
+        //     acolor(tikun4);
+        //     acolor(tikun5);
+        //     acolor(tikun1);
+        //         tikun1>0;
+        //     ){
+        //         console.log(tikun1);
+        //     };
+
+        };
+
+        //http://www.esjson.com/htmlformat.html
+        </script> 
+</body>
+</html>
