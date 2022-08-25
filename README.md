@@ -1,3 +1,3 @@
-# virtual-scroller
+# vit.html
 
-**Online demo: https://codesteppe.github.io/virtual-scroller/**
+**Online demo: https://github.com/sumrian/srian**
