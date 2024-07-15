@@ -1,4 +1,4 @@
-var ajuejin = [
+const ajuejin = [
   "携手创作，共同成长，8月更文活动奖品大升级！",
   "使用ComposeDesktop开发一款桌面端多功能APK工具",
   "对移动端app容灾的思考",
@@ -181,7 +181,7 @@ var ajuejin = [
 	"使用fs.readFile()方法读取文件",
 	"vue项目部署后刷新网页报404错误解决",
 ];
-var ijuejin=[
+const ijuejin=[
 	"https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/623e1d8ada4e49c088cfe0876214d856~tplv-k3u1fbpfcp-no-mark:240:240:240:160.awebp?",
 	"https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d337fef5815143bb80aef0013645ac06~tplv-k3u1fbpfcp-no-mark:240:240:240:160.awebp?",
 	"https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c3c17e906ded4f98a5e6f4ae406cdb31~tplv-k3u1fbpfcp-no-mark:240:240:240:160.awebp?",
