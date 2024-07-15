@@ -310,10 +310,10 @@ const virtualScroller = new VirtualScroller({
     d1.classList.add('row-c');
     const img = document.createElement("img");
     // const num = ' ${ijuejin[Math.floor(2*Math.random())] } ';
-    const num = ` ${ijuejin[Math.floor(100*Math.random())]} `
     //console.log(num);
-    img.src=num;
-    img.style.display="float:right";
+    img.src=    ` ${ijuejin[Math.floor(100*Math.random())]} `
+
+	  img.style.display="float:right";
     img.classList.add("ij");
     // img.width="202px";
     // img.height="66px";
