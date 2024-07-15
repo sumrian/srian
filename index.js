@@ -301,15 +301,15 @@ const virtualScroller = new VirtualScroller({
   pageSize: 100,
   buffer: 10,
   renderItem: function (dataItem) {
-    var dv = document.createElement('div');
+    const dv = document.createElement('div');
     const div = document.createElement('div');
     div.classList.add('row-content');
     div.textContent = dataItem;
      
-    var d1 = document.createElement('div');
+    const d1 = document.createElement('div');
     d1.classList.add('row-c');
-    var img = document.createElement("img");
-    // var num = ' ${ijuejin[Math.floor(2*Math.random())] } ';
+    const img = document.createElement("img");
+    // const num = ' ${ijuejin[Math.floor(2*Math.random())] } ';
     const num = ` ${ijuejin[Math.floor(100*Math.random())]} `
     //console.log(num);
     img.src=num;
